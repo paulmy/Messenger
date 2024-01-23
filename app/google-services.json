@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72832621052",
+    "project_id": "messenger-d587d",
+    "storage_bucket": "messenger-d587d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72832621052:android:56e82dcfa77246d009fa79",
+        "android_client_info": {
+          "package_name": "com.paulmy.messenger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9WQxi_iu1Dhj4fkQy5NamtpfY23R8Vl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
