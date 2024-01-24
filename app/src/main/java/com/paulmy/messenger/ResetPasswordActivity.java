@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,13 +19,17 @@ import com.paulmy.messenger.databinding.ActivityForgotBinding;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ForgotActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
     private ActivityForgotBinding binding;
     private FirebaseAuth mAuth;
+    private static final String EMAIL = "email";
+    private String email;
 
-    public static Intent newIntent(Context context) {
+    public static Intent newIntent(Context context, String email) {
 
-        return new Intent(context, ForgotActivity.class);
+        Intent intent = new Intent(context, ResetPasswordActivity.class);
+        intent.putExtra(EMAIL, email);
+        return intent;
     }
 
     @Override
@@ -36,9 +38,12 @@ public class ForgotActivity extends AppCompatActivity {
         binding = ActivityForgotBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
+        email = getIntent().getStringExtra(EMAIL);
+
+        binding.forgotEmail.setText(email);
         Handler handler = new Handler(getMainLooper());
         binding.btnSendPassword.setOnClickListener(v -> {
-                    String email = binding.forgotEmail.getText().toString().trim();
+                   email = binding.forgotEmail.getText().toString().trim();
                     if (email.isEmpty()) {
                         Toast.makeText(this, "NotCorrect Address", Toast.LENGTH_LONG).show();
                     } else {
