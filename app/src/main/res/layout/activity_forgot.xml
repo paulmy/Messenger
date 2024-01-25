@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    tools:context=".ForgotActivity">
+    tools:context=".ResetPasswordActivity">
 
     <Button
         android:id="@+id/btn_send_password"
@@ -36,8 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Forgot password"
+        android:textColor="@color/design_default_color_primary_dark"
         android:textAlignment="center"
-        android:textSize="48sp"
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/forgot_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
