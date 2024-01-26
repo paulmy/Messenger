@@ -1,23 +1,29 @@
 package com.paulmy.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class UsersActivity extends AppCompatActivity {
     public static Intent newIntent(Context context) {
         return new Intent(context, UsersActivity.class);
     }
+
+    private UserAdapter userAdapter;
 
     private UsersViewModel usersViewModel;
     private ActivityUsersBinding binding;
@@ -27,9 +33,18 @@ public class UsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         observeViewModel();
+        userAdapter = new UserAdapter();
+        binding.recyclerViewListUser.setAdapter(userAdapter);
 
+        List<User> userList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Random random = new Random();
+            userList.add(new User(i+"","UserName"+i,"LastName"+i,random.nextInt(30),random.nextBoolean()));
+        }
+        userAdapter.setUsers(userList);
     }
 
     public void observeViewModel() {
