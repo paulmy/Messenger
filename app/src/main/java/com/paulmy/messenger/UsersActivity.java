@@ -1,10 +1,5 @@
 package com.paulmy.messenger;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +8,11 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 public class UsersActivity extends AppCompatActivity {
     public static Intent newIntent(Context context) {

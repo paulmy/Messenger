@@ -23,7 +23,7 @@ public class UsersViewModel extends ViewModel {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                    user.setValue(firebaseAuth.getCurrentUser());
+                user.setValue(firebaseAuth.getCurrentUser());
 
             }
         });

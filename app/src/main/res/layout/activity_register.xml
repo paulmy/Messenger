@@ -29,12 +29,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/your_email"
             android:inputType="textEmailAddress" />
+
         <EditText
             android:id="@+id/editRegPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/your_password"
             android:inputType="textPassword" />
+
         <EditText
             android:id="@+id/editUserName"
             android:layout_width="match_parent"
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:hint="Age"
             android:inputType="numberDecimal" />
+
         <Button
             android:id="@+id/button_registration"
             android:layout_width="match_parent"

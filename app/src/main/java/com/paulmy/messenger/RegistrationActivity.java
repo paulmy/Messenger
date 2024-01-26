@@ -1,9 +1,5 @@
 package com.paulmy.messenger;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +8,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityRegisterBinding;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
-    private static final String EMAIL = "email";
 
 
     public static Intent newIntent(Context context) {

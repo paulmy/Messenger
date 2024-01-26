@@ -47,11 +47,11 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Snackbar.make(binding.getRoot(), "некорректный ввод", Snackbar.LENGTH_LONG).show();
             } else {
-                if (isValidEmail(email)){
+                if (isValidEmail(email)) {
                     loginViewModel.login(email, password);
-            } else {
-                Toast.makeText(this, "NotCorrect Address", Toast.LENGTH_LONG).show();
-            }
+                } else {
+                    Toast.makeText(this, "NotCorrect Address", Toast.LENGTH_LONG).show();
+                }
             }
         });
         binding.forgotpasswordTv.setOnClickListener(v ->
@@ -66,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.registerTv.setOnClickListener(v ->
         {
             //TODO: реализовать переход на окно с регистрации
-         //  String email = binding.editEmailAddress.getText().toString().trim();
+            //  String email = binding.editEmailAddress.getText().toString().trim();
 
 
-                startActivity(RegistrationActivity.newIntent(this));
+            startActivity(RegistrationActivity.newIntent(this));
 
         });
 
@@ -95,8 +95,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public static Intent newIntent(Context context){
-        return new Intent(context,LoginActivity.class);
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
 
     }
 }
