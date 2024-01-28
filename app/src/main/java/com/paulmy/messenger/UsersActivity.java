@@ -8,15 +8,9 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class UsersActivity extends AppCompatActivity {
     public static Intent newIntent(Context context) {
@@ -26,7 +20,7 @@ public class UsersActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
 
     private UsersViewModel usersViewModel;
-    private ActivityUsersBinding binding;
+    private  ActivityUsersBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +32,18 @@ public class UsersActivity extends AppCompatActivity {
         observeViewModel();
         userAdapter = new UserAdapter();
         binding.recyclerViewListUser.setAdapter(userAdapter);
-
-        List<User> userList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Random random = new Random();
-            userList.add(new User(i+"","UserName"+i,"LastName"+i,random.nextInt(30),random.nextBoolean()));
-        }
-        userAdapter.setUsers(userList);
     }
 
     public void observeViewModel() {
-        usersViewModel.getUser().observe(this, new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser == null) {
-                    Intent intent = LoginActivity.newIntent(UsersActivity.this);
-                    startActivity(intent);
-                    finish();
-                }
+        usersViewModel.getUser().observe(this, firebaseUser -> {
+            if (firebaseUser == null) {
+                Intent intent = LoginActivity.newIntent(UsersActivity.this);
+                startActivity(intent);
+                finish();
             }
         });
+        usersViewModel.getUsersReferenceLiveData()
+                .observe(this, users -> userAdapter.setUsers(users));
     }
 
     @Override
