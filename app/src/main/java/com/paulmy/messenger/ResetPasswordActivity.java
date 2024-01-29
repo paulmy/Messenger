@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityForgotBinding;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     private ActivityForgotBinding binding;

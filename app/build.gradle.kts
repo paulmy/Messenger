@@ -17,7 +17,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
-        viewBinding = true;
+        viewBinding = true
     }
     buildTypes {
         release {
@@ -41,6 +41,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-database")
 
 
     implementation("com.google.firebase:firebase-auth")

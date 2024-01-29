@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityRegisterBinding;
 

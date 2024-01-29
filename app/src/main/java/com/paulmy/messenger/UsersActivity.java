@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseUser;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
 
 import androidx.annotation.NonNull;
@@ -19,30 +22,33 @@ public class UsersActivity extends AppCompatActivity {
         return new Intent(context, UsersActivity.class);
     }
 
+    private UserAdapter userAdapter;
+
     private UsersViewModel usersViewModel;
-    private ActivityUsersBinding binding;
+    private  ActivityUsersBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         observeViewModel();
-
+        userAdapter = new UserAdapter();
+        binding.recyclerViewListUser.setAdapter(userAdapter);
     }
 
     public void observeViewModel() {
-        usersViewModel.getUser().observe(this, new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser == null) {
-                    Intent intent = LoginActivity.newIntent(UsersActivity.this);
-                    startActivity(intent);
-                    finish();
-                }
+        usersViewModel.getUser().observe(this, firebaseUser -> {
+            if (firebaseUser == null) {
+                Intent intent = LoginActivity.newIntent(UsersActivity.this);
+                startActivity(intent);
+                finish();
             }
         });
+        usersViewModel.getUsersReferenceLiveData()
+                .observe(this, users -> userAdapter.setUsers(users));
     }
 
     @Override

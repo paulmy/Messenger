@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.paulmy.messenger.databinding.ActivityLoginBinding;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -45,7 +45,9 @@ public class LoginActivity extends AppCompatActivity {
             String password = binding.editPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Snackbar.make(binding.getRoot(), "некорректный ввод", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.getRoot(),
+                        "некорректный ввод",
+                        Snackbar.LENGTH_LONG).show();
             } else {
                 if (isValidEmail(email)) {
                     loginViewModel.login(email, password);
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.forgotpasswordTv.setOnClickListener(v ->
         {
             String email = binding.editEmailAddress.getText().toString().trim();
-            if (isValidEmail(email)) {
+            if (isValidEmail(email)|| email.isEmpty()) {
                 startActivity(ResetPasswordActivity.newIntent(this, email));
             } else {
                 Toast.makeText(this, "NotCorrect Address", Toast.LENGTH_LONG).show();
@@ -65,10 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         binding.registerTv.setOnClickListener(v ->
         {
-            //TODO: реализовать переход на окно с регистрации
-            //  String email = binding.editEmailAddress.getText().toString().trim();
-
-
             startActivity(RegistrationActivity.newIntent(this));
 
         });
@@ -80,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(String errorMessage) {
                 if (errorMessage != null)
-                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this,
+                            errorMessage,
+                            Toast.LENGTH_LONG).show();
             }
         });
         loginViewModel.getUser().observe(this, new Observer<FirebaseUser>() {
