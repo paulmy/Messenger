@@ -11,10 +11,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ResetPasswordViewModel extends ViewModel {
     private FirebaseAuth auth;
-    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
+    private  MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
 
-    private final MutableLiveData<String> error = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> sendMail = new MutableLiveData<>(false);
+    private  MutableLiveData<String> error = new MutableLiveData<>();
+    private  MutableLiveData<Boolean> sendMail = new MutableLiveData<>(false);
 
     public MutableLiveData<Boolean> getSendMail() {
         return sendMail;

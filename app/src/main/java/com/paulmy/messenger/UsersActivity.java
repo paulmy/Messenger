@@ -12,11 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 public class UsersActivity extends AppCompatActivity {
     public static Intent newIntent(Context context) {
         return new Intent(context, UsersActivity.class);
@@ -37,6 +32,13 @@ public class UsersActivity extends AppCompatActivity {
         observeViewModel();
         userAdapter = new UserAdapter();
         binding.recyclerViewListUser.setAdapter(userAdapter);
+        userAdapter.setOnUserClickListener(new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onClickUser(User user) {
+
+                startActivity(ChatActivity.getInstance(UsersActivity.this,user.getId()));
+            }
+        });
     }
 
     public void observeViewModel() {

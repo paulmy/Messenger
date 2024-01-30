@@ -1,5 +1,7 @@
 package com.paulmy.messenger;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,10 +20,10 @@ import java.util.List;
 
 public class UsersViewModel extends ViewModel {
     private final FirebaseAuth auth;
-    private final FirebaseDatabase firebaseDatabase;
-    private final DatabaseReference userReference;
-    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
-    private final MutableLiveData<List<User>> usersReferenceLiveData = new MutableLiveData<>();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userReference;
+    private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
+    private MutableLiveData<List<User>> usersReferenceLiveData = new MutableLiveData<>();
 
     public LiveData<List<User>> getUsersReferenceLiveData() {
         return usersReferenceLiveData;
@@ -41,18 +43,16 @@ public class UsersViewModel extends ViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                List<User> userList = new ArrayList<>();
                 FirebaseUser currentUser = auth.getCurrentUser();
                 if (currentUser == null) {
                     return;
                 }
-                List<User> userList = new ArrayList<>();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     User user = snapshot1.getValue(User.class);
-                    if (user == null) {
-                        return;
-                    }
                     if (!user.getId().equals(currentUser.getUid())) {
                         userList.add(user);
+                        Log.d("USERS",user.toString());
                     }
                 }
                 usersReferenceLiveData.setValue(userList);

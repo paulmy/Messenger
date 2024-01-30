@@ -12,8 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginViewModel extends ViewModel {
-    private final MutableLiveData<String> error = new MutableLiveData<>();
-    private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
+    private  MutableLiveData<String> error = new MutableLiveData<>();
+    private  MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
 
     public LiveData<FirebaseUser> getUser() {
         return user;
