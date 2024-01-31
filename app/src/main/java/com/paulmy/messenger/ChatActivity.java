@@ -1,5 +1,6 @@
 package com.paulmy.messenger;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -7,15 +8,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.paulmy.messenger.databinding.ActivityChatBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 public class ChatActivity extends AppCompatActivity {
     private static final String EXTRA_CURRENT_USER_ID = "currentUserID";
@@ -26,6 +29,11 @@ public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
     private ChatViewModel chatViewModel;
     private ChatViewModelFactory chatViewModelFactory;
+    private static final int NOTIFY_ID = 101;
+    private static final String CHANNEL_ID = "Message channel";
+    NotificationManagerCompat notificationManager;
+
+    NotificationCompat.Builder notificationbuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,32 +42,50 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         currentUserId = getIntent().getStringExtra(EXTRA_CURRENT_USER_ID);
         otherUserId = getIntent().getStringExtra(EXTRA_OTHER_USER_ID);
-        chatViewModelFactory = new ChatViewModelFactory(currentUserId,otherUserId);
+        chatViewModelFactory = new ChatViewModelFactory(currentUserId, otherUserId);
 
         chatViewModel = new ViewModelProvider(this, chatViewModelFactory).get(ChatViewModel.class);
 
 
         messagesAdapter = new MessagesAdapter(currentUserId);
-       // messagesAdapter.setMessages(getListTest());
+        // messagesAdapter.setMessages(getListTest());
         binding.recyclerViewChat.setAdapter(messagesAdapter);
+
         observeViewModel();
         binding.sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Message message = new Message(binding.editMessage.getText().toString().trim(), currentUserId, otherUserId);
-                chatViewModel.sendMessages(message);
+                String text = binding.editMessage.getText().toString().trim();
+                if (!text.isEmpty()) {
+                    Message message = new Message(text, currentUserId, otherUserId);
+                    chatViewModel.sendMessages(message);
+                    }
+
             }
         });
 
 
+    }
 
+    @SuppressLint("MissingPermission")
+    public void showNotification(Context context, String text) {
+        notificationbuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentTitle("otherUserId")
+                .setContentText(text)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notificationManager = NotificationManagerCompat.from(context);
+
+        notificationManager.notify(NOTIFY_ID, notificationbuilder.build());
     }
 
     private void observeViewModel() {
         chatViewModel.getMessages().observe(this, new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
+
                 messagesAdapter.setMessages(messages);
+                if (messages.size() != 0)
+                    binding.recyclerViewChat.smoothScrollToPosition(messages.size() - 1);
             }
         });
         chatViewModel.getErrors().observe(this, new Observer<String>() {
@@ -92,7 +118,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 Drawable drawable = ContextCompat.getDrawable(ChatActivity.this, bgResId);
 
-               binding.statusId.setBackground(drawable);
+                binding.statusId.setBackground(drawable);
             }
         });
     }
@@ -124,10 +150,12 @@ public class ChatActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_OTHER_USER_ID, otherUserId);
         return intent;
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         chatViewModel.setUserOnline(false);
+       // showNotification(ChatActivity.this, "Hello");
     }
 
     @Override

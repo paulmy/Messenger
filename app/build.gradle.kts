@@ -43,7 +43,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-database")
 
-
+    //implementation("androidx.core:core-ktx:2.2.0")
     implementation("com.google.firebase:firebase-auth")
 
     testImplementation("junit:junit:4.13.2")
