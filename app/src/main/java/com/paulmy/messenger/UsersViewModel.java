@@ -33,7 +33,11 @@ public class UsersViewModel extends ViewModel {
         return user;
     }
 
-
+    public void setUserOnline(boolean online) {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if(firebaseUser==null){return;}
+        userReference.child(firebaseUser.getUid()).child("online").setValue(online);
+    }
     public UsersViewModel() {
         auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(firebaseAuth -> user.setValue(firebaseAuth.getCurrentUser()));

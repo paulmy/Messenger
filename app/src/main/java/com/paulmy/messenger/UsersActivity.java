@@ -13,13 +13,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.paulmy.messenger.databinding.ActivityUsersBinding;
 
 public class UsersActivity extends AppCompatActivity {
-    public static Intent newIntent(Context context) {
-        return new Intent(context, UsersActivity.class);
+    public static Intent newIntent(Context context,String currentUserId) {
+        Intent intent = new Intent(context, UsersActivity.class);
+        intent.putExtra(EXTRA_CURRENT_USER_ID,currentUserId);
+        return intent;
     }
 
     private UserAdapter userAdapter;
 
     private UsersViewModel usersViewModel;
+    private static final String EXTRA_CURRENT_USER_ID = "currentUserID";
+    private String currentUserId;
     private  ActivityUsersBinding binding;
 
     @Override
@@ -32,11 +36,13 @@ public class UsersActivity extends AppCompatActivity {
         observeViewModel();
         userAdapter = new UserAdapter();
         binding.recyclerViewListUser.setAdapter(userAdapter);
+
+        currentUserId=getIntent().getStringExtra(EXTRA_CURRENT_USER_ID);
         userAdapter.setOnUserClickListener(new UserAdapter.OnUserClickListener() {
             @Override
             public void onClickUser(User user) {
 
-                startActivity(ChatActivity.getInstance(UsersActivity.this,user.getId()));
+                startActivity(ChatActivity.newIntent(UsersActivity.this,currentUserId,user.getId()));
             }
         });
     }
@@ -70,5 +76,17 @@ public class UsersActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        usersViewModel.setUserOnline(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        usersViewModel.setUserOnline(true);
     }
 }

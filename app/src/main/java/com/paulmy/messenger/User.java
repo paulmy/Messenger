@@ -7,12 +7,12 @@ public class User {
     private int age;
     private Boolean online;
 
-    public User(String id, String name, String lastName, int age, Boolean isOnline) {
+    public User(String id, String name, String lastName, int age, Boolean online) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.online = isOnline;
+        this.online = online;
     }
 
     public User() {
