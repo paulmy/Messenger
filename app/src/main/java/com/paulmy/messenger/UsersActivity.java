@@ -43,6 +43,7 @@ public class UsersActivity extends AppCompatActivity {
             public void onClickUser(User user) {
 
                 startActivity(ChatActivity.newIntent(UsersActivity.this,currentUserId,user.getId()));
+                finish();
             }
         });
     }
